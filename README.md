@@ -544,16 +544,13 @@ except OSError:
 can be replaced with:
 
 ```python
-@contextmanager
-def ignored(*exceptions):
-    try:
-        yield
-    except exceptions:
-        pass
+from contextlib import suppress
 
-with ignored(OSError):
+with suppress(FileNotFoundError):
     os.remove('sometempfile.tmp')
 ```
+
+Note: `suppress()` is a reentrant context manager. More info [here](https://docs.python.org/3/library/contextlib.html#reentrant-context-managers).
 
 3. Using a lock
 
@@ -576,6 +573,8 @@ with lock:
     # critical section
 ```
 
+Note: For reentrant lock context manager, see [threading.RLock](https://docs.python.org/3/library/threading.html#threading.RLock).
+
 4. Redirecting output from stdout to file
 
 ```python
@@ -595,6 +594,8 @@ with open('help.txt', 'w') as f:
     with redirect_stdout(f):
         help(pow)
 ```
+
+Note: `redirect_stdout()` is also a reentrant context manager.
 
 More on context managers [here](https://docs.python.org/3/library/contextlib.html).
 
