@@ -1,4 +1,4 @@
-# Python tricks
+# Python 3 tricks
 
 Disclaimer: This list is meant as a comprehension of cool tips and tricks I found on the internet, and it was meant for personal use.
 
@@ -275,7 +275,7 @@ d = defaultdict(int)
 for color in colors:
     d[color] += 1
 
-print(d)    # prints {'blue': 1, 'green': 2, 'red': 3}
+print(dict(d))    # prints {'blue': 1, 'green': 2, 'red': 3}
 ```
 
 Note: This is a faster approach than `setdefault()` on most cases and faster than `get()` in all cases. Also, `defaultdict()` seems to work faster on native types like `int` or `string` and slower on `dict` or `list`. That being said, there are times when you cannot use `defaultdict()` and have to use either `setdefault()` or `get()`, for example when the default value of a certain key depends on the key itself, so `defaultdict()` cannot be used from the beginning to have a default value for every new key.
@@ -343,7 +343,7 @@ for name in names:
     key = len(name)
     d[key].append(name)
 
-print(d)    # prints {5: ['julia', 'maria'], 4: ['mark', 'alex'], 6: ['thomas', 'rachel']}
+print(dict(d))    # prints {5: ['julia', 'maria'], 4: ['mark', 'alex'], 6: ['thomas', 'rachel']}
 ```
 
 All you have to do to group based on some other function is change the `key` to something else.
@@ -381,5 +381,233 @@ langs = ['c', 'python', 'java', 'c++', 'kotlin', 'rust']
 text = ', '.join(langs)
 
 print(text) # prints c, python, java, c++, kotlin, rust
-
 ```
+
+### 19. Atomicity of builtin data types
+
+Most (!not all) of the builtin data types methods are implemented using C function calls, so that makes it atomic.
+
+For a better explanaton check [here](https://webcache.googleusercontent.com/search?q=cache:9ATPT7NPHg0J:effbot.org/pyfaq/what-kinds-of-global-value-mutation-are-thread-safe.htm+&cd=4&hl=en&ct=clnk&gl=in).
+
+Also, dictionaries' `popitem()` is atomic, while `pop()` may not, based on the key type (if the key is not a builtin data type, Python has to call that object's `__hash__()` implementation), so better use `popitem()` where atomicity is needed.
+
+```python
+d = {
+    'foo': 'c',
+    'bar': 'java',
+    'baz': 'rust'
+}
+
+while d:
+    key, value = d.popitem()
+    print(f'{key} --> {value}')
+
+# prints
+# foo --> c
+# bar --> java
+# baz --> rust
+
+# d is empty at the end
+```
+
+Note: If unsure, don't hesitate to use mutexes!
+
+### 20. Linking and overriding dictionaries with defaults
+
+When you have a dictionary that has some default values and you want to override it with another dictionary, use `ChainMap()`. `ChainMap()` has the advantage that it doesn't copy anything, it just "links" the dictionaries, using the initial memory (this also means that any change in the initial dictionary will be reflected in the `ChainMap()` as well).
+
+```python
+from collections import ChainMap
+
+defaults = {
+    'bar': 'c',
+    'foo': 'java'
+}
+
+overwritten = {
+    'foo': 'rust',
+    'barn': 'c++'
+}
+
+d = ChainMap(overwritten, defaults)
+
+print(dict(d))    # prints {'foo': 'rust', 'barn': 'c++', 'bar': 'c'}
+```
+
+Note: Don't use `copy()` and then `update()`, it is really bad performance-wise and can be replaced in 99% of the cases by a `ChainMap()`.
+
+```python
+d1 = {
+    'bar': 'c',
+    'foo': 'java'
+}
+
+d2 = {
+    'foo': 'rust',
+    'barn': 'c++'
+}
+
+# Don't do this!!
+d = d1.copy()
+d.update(d2)
+```
+
+Note 2: For a better example when this is useful, see [this](https://docs.python.org/3/library/collections.html#collections.ChainMap).
+
+### 21. Ordered dictionary
+
+A dictionary is not guaranteed to preserve the order of insertion. It actually optimizes keys for faster lookup. However there is one way to have a dictionary preserve insertion order, using `OrderedDict()` from `collections`.
+
+```python
+from collections import OrderedDict
+
+d = OrderedDict()
+d['bar'] = 'c'
+d['foo'] = 'java'
+d['baz'] = 'rust'
+
+print(dict(d))  # prints {'bar': 'c', 'foo': 'java', 'baz': 'rust'}
+```
+
+### 22. Using deque instead of a list when updating
+
+Deques (double ended queues) are really fast in python3. They are implemented using doubly-linked lists, so inserting and removing at the end or at the beginning is O(1) complexity. Lists are implemented as normal arrays, so they have to sometimes `realloc()` to accomodate for the number of elements (only sometimes because by default it `realloc()`s more memory at the time than necessary'), so that makes them have O(n) complexity when inserting or removing at the beginning because they have to copy the rest of the elements.
+
+Generally, updating a sequence is MUCH faster when using a `deque()` as opposed to using a `list()` (though keep in mind that accessing a random element in a `deque()` is expensive, whereas accessing a random element in a `list()` is O(1)).
+
+```python
+from collections import deque
+
+# Wrong!
+langs = ['c', 'python', 'java', 'c++', 'kotlin', 'rust']
+
+del langs[0]
+langs.pop(0)
+langs.insert(0, 'scala')
+
+# Right!
+langs = deque(['c', 'python', 'java', 'c++', 'kotlin', 'rust'])
+
+del langs[0]
+langs.popleft(0)
+langs.appendleft(0, 'scala')
+```
+
+### 23. Temporary contexts
+
+Usually there is the case that code like this is written in other languages:
+
+```python
+old_context = getcontext().copy()
+getcontext().prec = 50
+print(Decimal(355) / Decimal(113))
+setcontext(old_context)
+```
+
+This can easily be replaced with contexts:
+
+```python
+with localcontext(Context(prec=50)):
+    print(Decimal(355) / Decimal(113))
+```
+
+Other examples:
+
+1. Writing or reading from file
+
+```python
+f = open('data.txt')
+try:
+    data = f.read()
+    # do something with data
+finally:
+    f.close()
+```
+
+can be replaced with:
+
+```python
+with open('data.txt') as f:
+    data = f.read()
+    # do something with data
+```
+
+2. Deleting a file (getting rid of the try-except-pass idiom):
+
+```python
+try:
+    os.remove('sometempfile.tmp')
+except OSError:
+    pass
+```
+
+can be replaced with:
+
+```python
+@contextmanager
+def ignored(*exceptions):
+    try:
+        yield
+    except exceptions:
+        pass
+
+with ignored(OSError):
+    os.remove('sometempfile.tmp')
+```
+
+3. Using a lock
+
+```python
+lock = threading.Lock()
+
+lock.acquire()
+try:
+    # critical section
+finally:
+    lock.release()
+```
+
+can be replaced with:
+
+```python
+lock = threading.Lock()
+
+with lock:
+    # critical section
+```
+
+4. Redirecting output from stdout to file
+
+```python
+with open('help.txt', 'w') as f:
+    sldstdout = sys.stdout
+    sys.stdout = f
+    try:
+        help(pow)
+    finally:
+        sys.stdout = oldstdout
+```
+
+can be replaced with:
+
+```python
+with open('help.txt', 'w') as f:
+    with redirect_stdout(f):
+        help(pow)
+```
+
+More on context managers [here](https://docs.python.org/3/library/contextlib.html).
+
+### 24. Using the cache for optimized function calls
+
+For example, looking up a webpage numerous times is expensive, and usually the result is the same. So use the `lru_cache()` decorator:
+
+```python
+from functools import lru_cache
+
+@lru_cache
+def web_lookup(url):
+    return urllib.urlopen(url).read()
+```
+
+More can be found [here](https://docs.python.org/3/library/functools.html).
