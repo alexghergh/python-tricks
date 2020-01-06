@@ -291,6 +291,22 @@ for color in colors:
 print(d)    # prints {'blue': 1, 'green': 2, 'red': 5}
 ```
 
+Note 2: A case where `get()` accomplishes nicely what `setdefault()` and `defaultdict()` would do in a more complicated manner is when you have to return a default value from a dictionary if the key is not in it.
+
+```python
+d = {
+    1: 'Alice',
+    2: 'Bob',
+    3: 'Carla'
+}
+
+def hello(id):
+    return f'Hi, {d.get(id, "random person")}'
+
+print(hello(1)) # prints Hi, Alice
+print(hello(4)) # prints Hi, random person
+```
+
 ### 14. Creating a list with n elements
 
 Say you want to create a list with 100 elements of 0. You can just do:
