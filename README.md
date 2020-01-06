@@ -629,3 +629,83 @@ def web_lookup(url):
 ```
 
 More can be found [here](https://docs.python.org/3/library/functools.html#functools.lru_cache).
+
+### 25. Test a sequence or generator for truthness
+
+Using the `any()` function, you can check if at least one value in the iterable is `True`. It makes use of the `bool()` function.
+
+```python
+false_lst = [0, False, '', 0.0, [], {}, None]   # all of these return False when using bool() on them
+
+print(any(false_lst))   # prints False
+
+
+true_lst = [1, True, 'x', 3.14, ['x'], {'a': 'b'}]  # all of these return True when using bool() on them
+
+print(any(true_lst))    # prints True
+
+
+falst_lst.append(-1)    # any integer different from 0 is considered True
+
+print(any(false_lst))   # prints True
+```
+
+Note: This function shortcircuits, meaning the first time it finds `True` it returns; it does **NOT** check for the rest of the values to be `True`.
+
+Note 2: It is really useful with generators:
+
+```python
+print(any(range(1000000))   # prints True after 2 values evaluated, as range() is a generator
+
+print(any([range(1000000)]))   # prints True after the whole list of 1000000 elements has been initialized, as range() has to populate the list first
+```
+
+### 26. Use namedtuples instead of tuples
+
+Aside from the fact that `namedtuple()`s are more verbose, they also offer better usage, as they can be treated as regular tuples, classes or even dictionaries.
+
+For example, having a point:
+
+```python
+pt1 = (2, 3)
+
+print(pt1[0], pt1[1])   # prints 2 3
+```
+
+can be replaced with the better alternative `namedtuple()`:
+
+```python
+from collections import namedtuple
+
+Point = namedtuple('Point', 'x y')  # a tuple named 'Point' with attributes 'x' and 'y'
+# alternatively this means the exact same thing
+# Point = namedtuple('Point', ['x', 'y'])
+
+pt1 = Point(2, 3)
+print(pt1)                  # prints Point(x=2, y=3)
+print(pt1.x, pt1.y)         # prints 2 3
+print(pt1[0], pt1[1])       # prints 2 3
+print(dict(pt1._asdict()))  # prints {'x': 2, 'y': 3}
+print(pt1._replace(x=50))   # prints Point(x=50, y=3)
+                            # Note however that _replace() returns a modified copy. The original is still a tuple, so it cannot be modified
+```
+
+Another common example:
+
+```python
+from collections import namedtuple
+
+Person = namedtuple('Person', 'age color lang')
+
+person = Person(31, 'blue', 'c')
+print(person)   # prints Person(age=31, color='blue', lang='c')
+```
+
+Note: When the values from a `namedtuple()` are invalid (e.g. having one of the fields named `class` or having the same field twice), it throws a `ValueError`. To avoid this you can possibly provide a third parameter named `rename`. If set to `True`, it will rename the field that is incorrect.
+
+```python
+from collections import namedtuple
+
+Person = namedtuple('Person', 'age color age', rename=True)
+print(Person(31, 'blue', 'whatever'))   # prints Person(age=31, color='blue', _2='whatever')
+``` 
