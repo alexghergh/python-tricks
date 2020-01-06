@@ -70,6 +70,7 @@ for number, lang in zip(numbers, langs):
 ```
 
 Note: It takes any number of iterables and "zips" them into tuples.
+
 Note 2: It's important to note that it generates tuples on demand, so it reuses memory space (it used to create a third list in python2, and `izip()` used to do what `zip()` does now in python3).
 
 ### 5. Looping in sorted order
@@ -611,4 +612,4 @@ def web_lookup(url):
     return urllib.urlopen(url).read()
 ```
 
-More can be found [here](https://docs.python.org/3/library/functools.html).
+More can be found [here](https://docs.python.org/3/library/functools.html#functools.lru_cache).
