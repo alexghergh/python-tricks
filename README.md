@@ -18,7 +18,7 @@ for i in range(100000):
     print(i**2)
 ```
 
-Note: This function used to create a list in python2, and `xrange()` used to do what `range()` currently does, but it got changed, so `range()` in python3 is `xrange()` in python2.
+**Note:** This function used to create a list in python2, and `xrange()` used to do what `range()` currently does, but it got changed, so `range()` in python3 is `xrange()` in python2.
 
 ### 2. Looping backwards
 
@@ -69,9 +69,9 @@ for number, lang in zip(numbers, langs):
 # 3 --> java
 ```
 
-Note: It takes any number of iterables and "zips" them into tuples.
+**Note:** It takes any number of iterables and "zips" them into tuples.
 
-Note 2: It's important to note that it generates tuples on demand, so it reuses memory space (it used to create a third list in python2, and `izip()` used to do what `zip()` does now in python3).
+**Note 2:** It's important to note that it generates tuples on demand, so it reuses memory space (it used to create a third list in python2, and `izip()` used to do what `zip()` does now in python3).
 
 ### 5. Looping in sorted order
 
@@ -195,7 +195,7 @@ else:
     print('Scala is not in the list...')
 ```
 
-Note: Careful if you ever come back to this kind of code. Don't indent the `else` statement by accident!!!
+**Note:** Careful if you ever come back to this kind of code. Don't indent the `else` statement by accident!!!
 
 ### 10. Looping over dictionary keys
 
@@ -216,9 +216,9 @@ for k in list(d.keys()):
         del d[k]
 ```
 
-Note: `d.keys()` used to make a list copy of the keys, so there was no problem iterating and mutating the original dictionary at the same time. In modern Python3, `d.keys()` returns an iterable and can no longer be used to iterate and mutate a dictionary at the same time. To go around this, just wrap the method into a list as in the example.
+**Note:** `d.keys()` used to make a list copy of the keys, so there was no problem iterating and mutating the original dictionary at the same time. In modern Python3, `d.keys()` returns an iterable and can no longer be used to iterate and mutate a dictionary at the same time. To go around this, just wrap the method into a list as in the example.
 
-Note 2: There is an 'alternative' to this, but it has worse performance and memory usage:
+**Note 2:** There is an 'alternative' to this, but it has worse performance and memory usage:
 
 ```python
 d = {
@@ -246,7 +246,7 @@ for k, v in d.items():
 
 The `items()` method returns and iterator, so it uses the same amount of memory no matter how big the dictionary is.
 
-Note: In python2, the `items()` method used to return a list of tuples, and the `iteritems()` used to do what `items()` does now in python3.
+**Note:** In python2, the `items()` method used to return a list of tuples, and the `iteritems()` used to do what `items()` does now in python3.
 
 ### 12. Construct a dictionary from 2 iterables
 
@@ -279,7 +279,7 @@ for color in colors:
 print(dict(d))    # prints {'blue': 1, 'green': 2, 'red': 3}
 ```
 
-Note: This is a faster approach than `setdefault()` on most cases and faster than `get()` in all cases. Also, `defaultdict()` seems to work faster on native types like `int` or `string` and slower on `dict` or `list`. That being said, there are times when you cannot use `defaultdict()` and have to use either `setdefault()` or `get()`, for example when the default value of a certain key depends on the key itself, so `defaultdict()` cannot be used from the beginning to have a default value for every new key.
+**Note:** This is a faster approach than `setdefault()` on most cases and faster than `get()` in all cases. Also, `defaultdict()` seems to work faster on native types like `int` or `string` and slower on `dict` or `list`. That being said, there are times when you cannot use `defaultdict()` and have to use either `setdefault()` or `get()`, for example when the default value of a certain key depends on the key itself, so `defaultdict()` cannot be used from the beginning to have a default value for every new key.
 
 ```python
 colors = ['red', 'green', 'red', 'blue', 'green', 'red']
@@ -291,7 +291,7 @@ for color in colors:
 print(d)    # prints {'blue': 1, 'green': 2, 'red': 5}
 ```
 
-Note 2: A case where `get()` accomplishes nicely what `setdefault()` and `defaultdict()` would do in a more complicated manner is when you have to return a default value from a dictionary if the key is not in it.
+**Note 2:** A case where `get()` accomplishes nicely what `setdefault()` and `defaultdict()` would do in a more complicated manner is when you have to return a default value from a dictionary if the key is not in it.
 
 ```python
 d = {
@@ -376,7 +376,7 @@ print(p)                            # prints a tuple - ('alex', 'blue', 20, 'c')
 print(name, color, age, lang)       # prints alex blue 20 c
 ```
 
-Note: In the same manner, swapping 2 variables in python might the most elegant way out of all the languages:
+**Note:** In the same manner, swapping 2 variables in python might the most elegant way out of all the languages:
 
 ```python
 x, y = 1, 2
@@ -427,7 +427,7 @@ while d:
 # d is empty at the end
 ```
 
-Note: If unsure, don't hesitate to use mutexes!
+**Note:** If unsure, don't hesitate to use mutexes!
 
 ### 20. Linking and overriding dictionaries with defaults
 
@@ -451,7 +451,7 @@ d = ChainMap(overwritten, defaults)
 print(dict(d))    # prints {'foo': 'rust', 'barn': 'c++', 'bar': 'c'}
 ```
 
-Note: Don't use `copy()` and then `update()`, it is really bad performance-wise and can be replaced in 99% of the cases by a `ChainMap()`.
+**Note:** Don't use `copy()` and then `update()`, it is really bad performance-wise and can be replaced in 99% of the cases by a `ChainMap()`.
 
 ```python
 d1 = {
@@ -469,7 +469,7 @@ d = d1.copy()
 d.update(d2)
 ```
 
-Note 2: For a better example when this is useful, see [this](https://docs.python.org/3/library/collections.html#collections.ChainMap).
+**Note 2:** For a better example when this is useful, see [this](https://docs.python.org/3/library/collections.html#collections.ChainMap).
 
 ### 21. Ordered dictionary
 
@@ -567,7 +567,7 @@ with suppress(FileNotFoundError):
     os.remove('sometempfile.tmp')
 ```
 
-Note: `suppress()` is a reentrant context manager. More info [here](https://docs.python.org/3/library/contextlib.html#reentrant-context-managers).
+**Note:** `suppress()` is a reentrant context manager. More info [here](https://docs.python.org/3/library/contextlib.html#reentrant-context-managers).
 
 3. Using a lock
 
@@ -590,7 +590,7 @@ with lock:
     # critical section
 ```
 
-Note: For reentrant lock context manager, see [threading.RLock](https://docs.python.org/3/library/threading.html#threading.RLock).
+**Note:** For reentrant lock context manager, see [threading.RLock](https://docs.python.org/3/library/threading.html#threading.RLock).
 
 4. Redirecting output from stdout to file
 
@@ -612,7 +612,7 @@ with open('help.txt', 'w') as f:
         help(pow)
 ```
 
-Note: `redirect_stdout()` is also a reentrant context manager.
+**Note:** `redirect_stdout()` is also a reentrant context manager.
 
 More on context managers [here](https://docs.python.org/3/library/contextlib.html).
 
@@ -650,9 +650,9 @@ falst_lst.append(-1)    # any integer different from 0 is considered True
 print(any(false_lst))   # prints True
 ```
 
-Note: This function shortcircuits, meaning the first time it finds `True` it returns; it does **NOT** check for the rest of the values to be `True`.
+**Note:** This function shortcircuits, meaning the first time it finds `True` it returns; it does **NOT** check for the rest of the values to be `True`.
 
-Note 2: It is really useful with generators:
+**Note 2:** It is really useful with generators:
 
 ```python
 print(any(range(1000000))   # prints True after 2 values evaluated, as range() is a generator
@@ -701,7 +701,7 @@ person = Person(31, 'blue', 'c')
 print(person)   # prints Person(age=31, color='blue', lang='c')
 ```
 
-Note: When the values from a `namedtuple()` are invalid (e.g. having one of the fields named `class` or having the same field twice), it throws a `ValueError`. To avoid this you can possibly provide a third parameter named `rename`. If set to `True`, it will rename the field that is incorrect.
+**Note:** When the values from a `namedtuple()` are invalid (e.g. having one of the fields named `class` or having the same field twice), it throws a `ValueError`. To avoid this you can possibly provide a third parameter named `rename`. If set to `True`, it will rename the field that is incorrect.
 
 ```python
 from collections import namedtuple
