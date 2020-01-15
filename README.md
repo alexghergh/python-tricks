@@ -708,4 +708,6 @@ from collections import namedtuple
 
 Person = namedtuple('Person', 'age color age', rename=True)
 print(Person(31, 'blue', 'whatever'))   # prints Person(age=31, color='blue', _2='whatever')
-``` 
+```
+
+**Note 2:** Since Python 3.8, `_asdict()` method returns a regular dictionary, as regular `dict`s now have guaranteed ordering based on insertion (since Python 3.7).
