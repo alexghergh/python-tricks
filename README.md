@@ -711,3 +711,16 @@ print(Person(31, 'blue', 'whatever'))   # prints Person(age=31, color='blue', _2
 ```
 
 **Note 2:** Since Python 3.8, `_asdict()` method returns a regular dictionary, as regular `dict`s now have guaranteed ordering based on insertion (since Python 3.7).
+
+### 27. Profiling code with cProfile
+
+Since Python 3.8, cProfile can be used as a context manager, making it extremely easy to profile code.
+
+```python
+import cProfile
+
+with cProfile.Profile() as profiler:
+    # code to be profiled
+
+profiler.print_stats()
+```
