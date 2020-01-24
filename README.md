@@ -376,7 +376,7 @@ print(p)                            # prints a tuple - ('alex', 'blue', 20, 'c')
 print(name, color, age, lang)       # prints alex blue 20 c
 ```
 
-**Note:** In the same manner, swapping 2 variables in python might the most elegant way out of all the languages:
+**Note:** In the same manner, swapping 2 variables in python might be the most elegant way out of all the languages:
 
 ```python
 x, y = 1, 2
@@ -515,6 +515,8 @@ langs.appendleft(0, 'scala')
 Usually there is the case that code like this is written in other languages:
 
 ```python
+from decimal import getcontext, setcontext
+
 old_context = getcontext().copy()
 getcontext().prec = 50
 print(Decimal(355) / Decimal(113))
@@ -524,6 +526,8 @@ setcontext(old_context)
 This can easily be replaced with contexts:
 
 ```python
+from decimal import localcontext, Context
+
 with localcontext(Context(prec=50)):
     print(Decimal(355) / Decimal(113))
 ```
@@ -632,7 +636,7 @@ More can be found [here](https://docs.python.org/3/library/functools.html#functo
 
 ### 25. Test a sequence or generator for truthness
 
-Using the `any()` function, you can check if at least one value in the iterable is `True`. It makes use of the `bool()` function.
+Using the `any()` function, you can check if at least one value in the iterable is `True`. It applies the `bool()` function to every element.
 
 ```python
 false_lst = [0, False, '', 0.0, [], {}, None]   # all of these return False when using bool() on them
