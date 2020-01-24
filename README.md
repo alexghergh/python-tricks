@@ -681,6 +681,8 @@ print(any(range(1000000))   # prints True after 2 values evaluated, as range() i
 print(any([range(1000000)]))   # prints True after the whole list of 1000000 elements has been initialized, as range() has to populate the list first
 ```
 
+There is another function, `all()`, that does what it says: it tests for all the elements in the sequence to be `True`, and works much in the same way as `any()`.
+
 ### 26. Use namedtuples instead of tuples
 
 Aside from the fact that `namedtuple()`s are more verbose, they also offer better usage, as they can be treated as regular tuples, classes or even dictionaries.
