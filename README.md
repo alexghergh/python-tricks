@@ -747,3 +747,53 @@ with cProfile.Profile() as profiler:
 
 profiler.print_stats()
 ```
+
+### 28. Pretty print stuff
+
+One way to format the output is to use the `pprint` module.
+
+```python
+from pprint import pprint
+
+d = {
+        'b': [*range(5)],
+        'c': []
+        'a': "Here is a long string".split(" "),
+        }
+
+pprint(d, indent=2, width=20, compact=True)
+
+# prints
+# { 'a': [ 'Here',
+#          'is', 'a',
+#          'long',
+#          'string'],
+#   'b': [ 0, 1, 2, 3,
+#          4],
+#   'c': []}
+```
+
+**Note**: Since Python 3.8, the parameter `sort_dicts` was added (`True` by default):
+
+```python
+from pprint import pprint
+
+d = {
+        'b': [*range(5)],
+        'c': []
+        'a': "Here is a long string".split(" "),
+        }
+
+pprint(d, indent=2, width=20, compact=True, sort_dicts=False)
+
+# prints
+# { 'b': [ 0, 1, 2, 3,
+#          4],
+#   'c': [],
+#   'a': [ 'Here',
+#          'is', 'a',
+#          'long',
+#          'string']}
+```
+
+More info [here](https://docs.python.org/3/library/pprint.html#module-pprint).
