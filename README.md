@@ -486,6 +486,23 @@ d['baz'] = 'rust'
 print(dict(d))  # prints {'bar': 'c', 'foo': 'java', 'baz': 'rust'}
 ```
 
+**Note:** Since Python 3.7, regular `dict`s have guaranteed ordering. More [here](https://docs.python.org/3/library/stdtypes.html#dict). Note however that they don't __completely__ replace `OrderedDict`s, since they have extra features:
+
+```python
+from collections import OrderedDict
+
+a = {1: 1, 2: 2}
+b = {2: 2, 1: 1}
+
+c = OrderedDict(a)
+d = OrderedDict(b)
+
+print(a == b)   # returns True
+print(c == d)   # returns False since OrderedDicts are order-sensitive, and regular dicts are not
+```
+
+Also, `OrderedDict`s have methods to change order of elements, while regular `dict`s don't.
+
 ### 22. Using deque instead of a list when updating
 
 Deques (double ended queues) are really fast in python3. They are implemented using doubly-linked lists, so inserting and removing at the end or at the beginning is O(1) complexity. Lists are implemented as normal arrays, so they have to sometimes `realloc()` to accomodate for the number of elements (only sometimes because by default it `realloc()`s more memory at the time than necessary'), so that makes them have O(n) complexity when inserting or removing at the beginning because they have to copy the rest of the elements.
