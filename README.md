@@ -486,7 +486,7 @@ d['baz'] = 'rust'
 print(dict(d))  # prints {'bar': 'c', 'foo': 'java', 'baz': 'rust'}
 ```
 
-**Note:** Since Python 3.7, regular `dict`s have guaranteed ordering. More [here](https://docs.python.org/3/library/stdtypes.html#dict). Note however that they don't __completely__ replace `OrderedDict`s, since they have extra features:
+**Note:** Since Python 3.7, regular `dict`s have guaranteed ordering. More [here](https://docs.python.org/3/library/stdtypes.html#dict). Note however that they don't **_completely_** replace `OrderedDict`s, since they have extra features:
 
 ```python
 from collections import OrderedDict
