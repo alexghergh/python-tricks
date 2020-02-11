@@ -892,5 +892,27 @@ Python has a built-in http server; it can be super useful if you want to preview
 This serves the website in the current directory at address `localhost:8000`:
 
 ```bash
-python3 -m http.server 
+python3 -m http.server
 ```
+
+### 33. Type annotations
+
+Python 3.5 supports type annotations, which can ensure better readability. **Note however that they are only there for the programmer to acknowledge, Python does not care and won't change anything based on them**.
+
+```python
+def func(s1: int, s2: int = 42) -> int:
+    return s1 + s2
+```
+
+They can be changed to anything you want:
+
+```python
+def func2(page: 'web page', request: 'web request') -> 'web response':
+    # return response
+```
+
+**Note:** Passing 2 strings to `func()` is perfectly valid, as Python does **_NOT_** care at all about these annotations (in this case the function would return the 2 strings concatenated).
+
+**Note 2:** You can use stuff like [Mypy](http://mypy-lang.org) to enforce this kind of behaviour, so Python becomes statically-typed!
+
+More info about type annotations can be found in [PEP 484](https://www.python.org/dev/peps/pep-0484/).
