@@ -883,4 +883,4 @@ print(list1)    # prints [1, 2, [3, 6], 5]
 print(list3)    # prints [9, 2, [3, 8], 5]
 ```
 
-More about deep and shallow copies here [here](https://www.geeksforgeeks.org/copy-python-deep-copy-shallow-copy/).
+More about deep and shallow copies [here](https://www.geeksforgeeks.org/copy-python-deep-copy-shallow-copy/).
