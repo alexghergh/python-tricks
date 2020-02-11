@@ -797,3 +797,90 @@ pprint(d, indent=2, width=20, compact=True, sort_dicts=False)
 ```
 
 More info [here](https://docs.python.org/3/library/pprint.html#module-pprint).
+
+### 29. The "is" operator vs "==" operator
+
+The `is` operator checks if 2 objects point to the same memory address. The equality operator `==` checks if 2 objects are equal.
+
+```python
+langs = ['c', 'python', 'java', 'c++', 'kotlin', 'rust']
+copy = langs    # now copy and langs point to the same memory object
+
+print(copy == langs)    # prints True
+print(copy is langs)    # prints True
+
+other_copy = list(langs)    # other_copy has a copy of langs, but point to different memory objects
+print(other_copy == langs)  # prints True
+print(other_copy is langs)  # prints False
+```
+
+### 30. List slices
+
+You can use slices to replace elements, delete elements or make a copy of a list.
+
+1. Delete items:
+
+```python
+langs = ['c', 'python', 'java', 'c++', 'kotlin', 'rust']
+
+del langs[0:3]
+print(langs)    # prints ['c++', 'kotlin', 'rust']
+```
+
+2. Replace elements of a list without creating a new list object
+
+```python
+langs = ['c', 'python', 'java', 'c++', 'kotlin', 'rust']
+copy = langs
+
+print(copy is langs)    # prints True
+
+langs[:] = [41, 42, 43]
+print(copy is langs)    # prints True
+print(copy)             # prints [41, 42, 43]
+
+langs = [1, 2, 3]
+print(copy is langs)    # prints False, langs points to new list (new memory object)
+```
+
+3. Make a (shallow) copy of a list
+
+```python
+langs = ['c', ['python', 'java'], 'c++', 'kotlin', 'rust']
+copy = langs[:]
+
+copy[1][0] = 'some other lang'
+print(langs)    # prints ['c', ['some other lang', 'java'], 'c++', 'kotlin', 'rust']
+```
+
+**Note:** If you need a deep copy consider using the function `deepcopy()` from the module `copy`.
+
+### 31. Deep and shallow copies
+
+There are 2 types of copies in Python. One is the shallow copy, that works very similar to how assigning to pointers works in C (they only reference the object they point to, changing one also changes the other), and the other is the deep copy, which makes a perfect copy of the object.
+
+```python
+import copy
+
+list1 = [1, 2, [3, 4], 5]
+
+list2 = copy.copy(list1)
+
+list2[2][1] = 6
+list2[0] = 7
+
+# shallow copy, list2 holds references to objects in list1, changing one also changes the other
+print(list1)    # prints [1, 2, [3, 6], 5]
+print(list2)    # prints [7, 2, [3, 6], 5]
+
+list3 = copy.deepcopy(list1)
+
+list3[2][1] = 8
+list3[0] = 9
+
+# deep copy, list3 is a perfect copy of list1 with no references to it, changing one doesn't change the other
+print(list1)    # prints [1, 2, [3, 6], 5]
+print(list3)    # prints [9, 2, [3, 8], 5]
+```
+
+More about deep and shallow copies here [here](https://www.geeksforgeeks.org/copy-python-deep-copy-shallow-copy/).
