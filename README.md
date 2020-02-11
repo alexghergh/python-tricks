@@ -884,3 +884,13 @@ print(list3)    # prints [9, 2, [3, 8], 5]
 ```
 
 More about deep and shallow copies [here](https://www.geeksforgeeks.org/copy-python-deep-copy-shallow-copy/).
+
+### 32. Python's built-in http server
+
+Python has a built-in http server; it can be super useful if you want to preview a website without going the hurdle of starting an apache or nginx server.
+
+This serves the website in the current directory at address `localhost:8000`:
+
+```bash
+python3 -m http.server 
+```
