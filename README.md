@@ -916,3 +916,133 @@ def func2(page: 'web page', request: 'web request') -> 'web response':
 **Note 2:** You can use stuff like [Mypy](http://mypy-lang.org) to enforce this kind of behaviour, so Python becomes statically-typed!
 
 More info about type annotations can be found in [PEP 484](https://www.python.org/dev/peps/pep-0484/).
+
+### 34. Counter for iterables
+
+This is an easy method to find the most common elements in an iterable:
+
+```python
+import collections
+
+count = collections.Counter('some random string')
+
+print(c.most_common())
+# prints [('s', 2), ('o', 2), ('m', 2), (' ', 2), ('r', 2), ('n', 2), ('e', 1), ('a', 1), ('d', 1), ('t', 1), ('i', 1), ('g', 1)]
+print(c.most_common(3))
+# prints [('s', 2), ('o', 2), ('m', 2)]
+```
+
+More info can be found [in the Python docs for the Counter class](https://docs.python.org/3/library/collections.html#collections.Counter).
+
+### 35. Permutations of an iterable
+
+Get permutations of an iterable:
+
+```python
+import itertools
+
+lst = list(itertools.permutations('abc', 2))
+
+print(lst)
+# prints [('a', 'b'), ('a', 'c'), ('b', 'a'), ('b', 'c'), ('c', 'a'), ('c', 'b')]
+```
+
+The function takes an iterable and another optional argument specifying the length of one permutation.
+
+### 36. Getting the representation of an object as a string
+
+Python has 2 methods to transform an object into a string (similar to other languages `toString()` methods); those are `str()` and `repr()`.
+
+```python
+import datetime
+
+now = datetime.date.today()
+
+print(str(now))     # prints '2020-02-12'
+print(repr(now))    # prints 'datetime.date(2020, 2, 12)'
+```
+
+The function `str()` is made for clarity, while the function `repr()` is made to be unambiguos about what the object represents.
+
+The python console uses `repr()`.
+
+### 37. Python dissasembler
+
+Python has a built-in dissasembler. It is very rudimentary, but it can help debug some code.
+
+```python
+import dis
+
+def func(text):
+    return 'This is some text \'' + str(text) + '\'.'
+
+dis.dis(func)
+#  4           0 LOAD_CONST               1 ("This is some text '")
+#              2 LOAD_GLOBAL              0 (str)
+#              4 LOAD_FAST                0 (text)
+#              6 CALL_FUNCTION            1
+#              8 BINARY_ADD
+#             10 LOAD_CONST               2 ("'.")
+#             12 BINARY_ADD
+#             14 RETURN_VALUE
+```
+
+More info [in the docs](https://docs.python.org/3/library/dis.html).
+
+### 38. Lambda functions
+
+Lambda functions, as in other functional programming languages, are anonymous functions that don't have a name. They are useful for small code that doesn't require more than a line or two, and they are generally passed as arguments to other functions.
+
+One such example that applies to all functional programming languages is the `map()` function. It takes a callable as the first argument (read function, lambda function, something that can be called), and an iterable as the second argument, and applies the function to each of the elements of the iterable, returning a new iterable.
+
+```python
+obj = map(lambda string: string.lower(), ['StRiNg', 'ANOTHER string'])
+
+print(list(obj))
+# prints ['string', 'another string']
+```
+
+This code does the exact same thing:
+
+```python
+def stringlower(string):
+    return string.lower()
+
+lst = ['StRiNg', 'ANOTHER string']
+obj = []
+
+for item in lst:
+    obj.append(stringlower(item))
+
+print(obj)
+# prints ['string', 'another string']
+```
+
+Another example:
+
+```python
+power_func = lambda x, y: x ** y
+
+print(power_func(2, 3)) # prints 8
+
+x = (lambda a, b: a - b)(5, 4)
+print(x)   # prints 1
+```
+
+### 39. Ip addresses in Python
+
+Python has an interesting module to work with Ip addresses:
+
+```python
+import ipaddress
+
+address = ipaddress.ip_address('192.168.100.14')
+print(repr(address))
+# prints IPv4Address('192.168.100.14')
+
+# you can even have arithmetic operations done on this address
+print(address + 3)
+# prints 192.168.100.17
+```
+
+More info [here](https://docs.python.org/3/library/ipaddress.html).
