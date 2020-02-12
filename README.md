@@ -1046,3 +1046,26 @@ print(address + 3)
 ```
 
 More info [here](https://docs.python.org/3/library/ipaddress.html).
+
+### 40. Subclasses and subinstances
+
+In Python, you can check if a class is a subclass of some other class:
+
+```python
+class BaseClass(): pass
+class SubClass(BaseClass): pass
+
+print(issubclass(SubClass, BaseClass))  # prints True
+print(issubclass(SubClass, object))     # prints True
+```
+
+You can also check if some instance is an instance of the specified class or another sublass of that class:
+
+```python
+class BaseClass(): pass
+class SubClass(BaseClass): pass
+
+obj = SubClass()
+
+print(isinstance(obj, BaseClass))   # prints True
+```
