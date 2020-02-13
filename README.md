@@ -1093,6 +1093,8 @@ print(func(1, positional_and_keyword_argument = 2, keyword_only_argument = 3))
 
 Info and rationale about these 2 types of parameters can be found in [PEP 3102 - keyword-only parameters](https://www.python.org/dev/peps/pep-3102/) and in [PEP 570 - positional-only parameters](https://www.python.org/dev/peps/pep-0570/).
 
+**Note:** Until Python 3.8, positional-only arguments could only be used in library functions. Starting from Python 3.8, they can be used in programmer constructions too.
+
 ### 42. Python interactive shell
 
 Say you wrote some Python code like this:
