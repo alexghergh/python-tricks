@@ -1092,3 +1092,35 @@ print(func(1, positional_and_keyword_argument = 2, keyword_only_argument = 3))
 ```
 
 Info and rationale about these 2 types of parameters can be found in [PEP 3102 - keyword-only parameters](https://www.python.org/dev/peps/pep-3102/) and in [PEP 570 - positional-only parameters](https://www.python.org/dev/peps/pep-0570/).
+
+### 42. Python interactive shell
+
+Say you wrote some Python code like this:
+
+```python
+def min(a, b):
+    return a if a < b else b
+```
+
+You can launch it in an interactive shell with `python -i main.py`, which is similar to calling only `python` in the command line, with the key difference that the python shell contains your function in the global scope as well. Go ahead, try it!
+
+### 43. Python debugger
+
+Python has a debugger, similar to gdb. One way to use it is to simply add `import pdb; pdb.set_trace()` in your program wherever u want the debugger to stop program execution.
+
+The debugger can also be called on a script like this: `python -m pdb script.py`, and it stops when the module loads, just before executing the first line of the script.
+
+```python
+def add(a, b):
+    return a + b
+
+import pdb
+pdb.set_trace()
+# code execution will stop here, and the program will enter the debugger
+
+print(add(1, 2))
+```
+
+For more information on how to operate the python debugger, visit [this](https://docs.python.org/3/library/pdb.html#debugger-commands).
+
+**Note:** Since Python 3.7, instead of `import pdb; pdb.set_trace()`, you can simply add a `breakpoint()` function call whenever you want the program to stop execution.
