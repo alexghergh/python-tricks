@@ -142,6 +142,8 @@ s + ' ' + t
 Template('$s $t').substitute(s=s, t=t)  # slowest
 ```
 
+**Note:** f-strings were added in Python 3.6.
+
 ### 8. Iterating until a sentinel value
 
 This method has 2 forms:
