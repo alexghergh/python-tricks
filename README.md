@@ -1128,3 +1128,30 @@ print(add(1, 2))
 For more information on how to operate the python debugger, visit [this](https://docs.python.org/3/library/pdb.html#debugger-commands).
 
 **Note:** Since Python 3.7, instead of `import pdb; pdb.set_trace()`, you can simply add a `breakpoint()` function call whenever you want the program to stop execution.
+
+### 44. The walrus operator (:=)
+
+Python 3.8 introduced assignment expressions through the use of a new operator, called the walrus operator (if you look sideways, the operator looks like a walrus).
+
+Assignment expressions allow you to assign and return a value in the same expression, similar to how things work in a language like C.
+
+```python
+while (x := int(input("What is your age?"))) > 18:
+    print("You are a grown-up!")
+else:
+    print("You are a kid!")
+```
+
+It can be useful, for example in list comprehensions:
+
+```python
+lst = [y for x in 'abcd' if (y := f(x)) is not None]
+# instead of having to compute f(x) twice
+lst = [f(x) for x in 'abcd' if f(x) is not None]
+```
+
+Arguably, the operator is a little confusing, and most of the times not needed and can be replaced with more expressive syntax. There are good arguments to why this operator is not needed in Python [here](https://www.reddit.com/r/Python/comments/8ex72p/pep_572_assignment_expressions/).
+
+Nonetheless, Python 3.8 adopted assignment expressions through the use of the walrus operator :=.
+
+For more info on the walrus operator and assignment expressions, see [PEP 572](https://www.python.org/dev/peps/pep-0572/).
