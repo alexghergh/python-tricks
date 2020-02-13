@@ -1112,7 +1112,7 @@ You can launch it in an interactive shell with `python -i main.py`, which is sim
 
 Python has a debugger, similar to gdb. One way to use it is to simply add `import pdb; pdb.set_trace()` in your program wherever u want the debugger to stop program execution.
 
-The debugger can also be called on a script like this: `python -m pdb script.py`, and it stops when the module loads, just before executing the first line of the script.
+In Python 3.7, the debugger can also be called on a script like this: `python -m pdb script.py`, and it stops when the module loads, just before executing the first line of the script.
 
 ```python
 def add(a, b):
