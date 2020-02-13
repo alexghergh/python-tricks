@@ -1069,3 +1069,26 @@ obj = SubClass()
 
 print(isinstance(obj, BaseClass))   # prints True
 ```
+
+### 41. Asterisk (\*) and slash (\\) in function definition (positional- and keyword-only function parameters)
+
+In Python 3, you can add an asterisk and a slash to a function definition with special meaning. Asterisk marks keyword-only parameters (that means parameters that can be given to the function just by keyword, not by position), while slash marks positional-only parameters (meaning parameters cannot be given by keyword, but by position only).
+
+```python
+def func(positional_only_argument, /, positional_and_keyword_argument, *, keyword_only_argument):
+    return positional_only_argument + positional_and_keyword_argument + keyword_only_argument
+
+print(func(1, 2, 3))
+# Type error, third parameter should be keyword
+
+print(func(positional_only_argument = 1, 2, 3))
+# Type error, first parameter is positional only
+
+print(func(1, 2, keyword_only_argument = 3))
+# fine, prints 6
+
+print(func(1, positional_and_keyword_argument = 2, keyword_only_argument = 3))
+# fine, prints 6
+```
+
+Info and rationale about these 2 types of parameters can be found in [PEP 3102 - keyword-only parameters](https://www.python.org/dev/peps/pep-3102/) and in [PEP 570 - positional-only parameters](https://www.python.org/dev/peps/pep-0570/).
