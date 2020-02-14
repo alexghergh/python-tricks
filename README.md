@@ -1155,3 +1155,50 @@ Arguably, the operator is a little confusing, and most of the times not needed a
 Nonetheless, Python 3.8 adopted assignment expressions through the use of the walrus operator :=.
 
 For more info on the walrus operator and assignment expressions, see [PEP 572](https://www.python.org/dev/peps/pep-0572/).
+
+### 45. Formatted strings (f-strings)
+
+Formatted string literals (or f-strings) are a construct added in Python 3.6 and have since become very popular due to the speed (see tip 7) and simplicity.
+
+Some examples:
+
+```python
+number = 3.1415
+width = 10
+precision = 3
+print(f'This is {number:{width}.{precision}}')
+# prints
+# This is       3.14
+```
+
+There are three conversion fields; `r`, `s` and `a`. What they do is call the functions `repr()`, `str()` and `ascii()` respectively on the formatted parameter.
+
+```python
+name = 'Alex'
+print(f'My name is {name!r}')
+# prints
+# My name is 'Alex'
+```
+
+Since Python 3.8, there is a new specifier (=), that expands to the representation of the expression, making it useful for debugging and self-documenting.
+
+```python
+import datetime
+
+name = 'Alex'
+print(f'{name=}')               # prints name='Alex'
+
+now = datetime.date.today()
+print(f'{now=}')                # prints now=datetime.date(2020, 2, 14)
+# f-string specifiers still work
+print(f'{now=!s}')              # prints now=2020-02-14
+number = 3.1415
+
+# Careful when adding format specifiers
+print(f'{number + 1=:10.2f}')   # prints number + 1=      4.14
+print(f'{number + 1=:10.2}')    # prints number + 1=       4.1
+```
+
+More info about f-strings [in the docs](https://docs.python.org/3/reference/lexical_analysis.html#f-strings).
+
+**Note:** Formatted strings have a 'formatting' option similar to how `printf()` works in other languages. Python's implementation of formatted print is [a little more advanced though](https://docs.python.org/3/library/string.html#format-specification-mini-language).
