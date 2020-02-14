@@ -919,6 +919,8 @@ def func2(page: 'web page', request: 'web request') -> 'web response':
 
 More info about type annotations can be found in [PEP 484](https://www.python.org/dev/peps/pep-0484/).
 
+**Note 3:** Since Python 3.6, [PEP 526](https://www.python.org/dev/peps/pep-0526/), more support for type annotations was added. Again, **Python will always be a dynamically-typed language**, but tools can be used to ensure static typing.
+
 ### 34. Counter for iterables
 
 This is an easy method to find the most common elements in an iterable:
