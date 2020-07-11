@@ -970,9 +970,9 @@ The function `str()` is made for clarity, while the function `repr()` is made to
 
 The python console uses `repr()`.
 
-### 37. Python dissasembler
+### 37. Python disassembler
 
-Python has a built-in dissasembler. It is very rudimentary, but it can help debug some code.
+Python has a built-in disassembler. It is very rudimentary, but it can help debug some code.
 
 ```python
 import dis
