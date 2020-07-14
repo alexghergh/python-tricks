@@ -1204,3 +1204,87 @@ print(f'{number + 1=:10.2}')    # prints number + 1=       4.1
 More info about f-strings [in the docs](https://docs.python.org/3/reference/lexical_analysis.html#f-strings).
 
 **Note:** Formatted strings have a 'formatting' option similar to how `printf()` works in other languages. Python's implementation of formatted print is [a little more advanced though](https://docs.python.org/3/library/string.html#format-specification-mini-language).
+
+### 46. Decorators and the functools.wraps helper function
+
+Say you have a function:
+
+```python
+def sum(a, b):
+    """This function adds 2 numbers and returns the result."""
+    return a + b
+```
+
+But now we want to log this function call. Of course, adding this code in the implementation of the function is bad, since we're polluting the function code. Even more so, what if we want to log another 10 function calls?
+
+For this purpose, we can easily use a decorator.
+
+```python
+def log(func):
+
+    def wrapper(*args, **kwargs):
+        """Wrapper function."""
+        # do some logging
+        return func(*args, **kwargs)
+
+    return wrapper
+```
+
+Now it is easy to use the decorator on whatever function we want to log.
+
+```python
+@log
+def sum(a, b):
+    """This function adds 2 numbers and returns the result."""
+    return a + b
+
+print(sum(4, 5)) # this function call will be logged
+```
+
+However, one problem arises when decorating a function like this. If we now try to get the doc or the function name, we notice that we get the information of the wrapper function, rather than that of our initial function:
+
+```python
+print(sum.__doc__)      # prints "Wrapper function"
+print(sum.__name__)     # prints "wrapper"
+```
+
+This is not ideal, considering that debuggers and other introspection tools use this. To fix this, we can use functools.wraps.
+
+```python
+import functools
+
+def log(func):
+
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        """Wrapper function."""
+        # do some logging
+        return func(*args, **kwargs)
+
+    return wrapper
+
+@log
+def sum(a, b):
+    """This function adds 2 numbers and returns the result."""
+    return a + b
+
+print(sum.__doc__)      # prints "This function adds 2 numbers and returns the result."
+print(sum.__name__)     # prints "sum"
+```
+
+### 47. Static function variables
+
+Python does not have a built-in method to have a static variable in a function like C or other languages do through the use of the `static` keyword.
+
+Instead, we can use the fact that functions are first-class objects in Python and we can assign variables to them.
+
+```python
+def func():
+    try:
+        func.number_of_times_called += 1
+    except:
+        func.number_of_times_called = 1
+    # some really interesting code
+```
+
+This is better than having a global variable pollute the global namespace, and is better than having a decorator that does that (because the decorator runs when the python module is loaded even if the function might never be called, so the decorator will still do some work and initialize some value; instead here the code runs only when the function is called, if ever).
