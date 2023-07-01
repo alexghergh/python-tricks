@@ -1,0 +1,4 @@
+Add tricks
+
+Add following topics to main README file:
+- Topic
